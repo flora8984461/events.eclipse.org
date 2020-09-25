@@ -3,12 +3,12 @@ import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import EventsDataFetcher from './components/EventsDataFetcher';
+import Wrapper from './components/Wrapper';
 
 const App = () => (
   <div className="container">
-    <h1>Upcoming Events</h1>
-    <EventsDataFetcher />
+    <h1>Events</h1>
+    <Wrapper />
   </div>
 );
 
