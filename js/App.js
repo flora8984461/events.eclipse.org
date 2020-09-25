@@ -2,12 +2,12 @@ import 'promise-polyfill/src/polyfill';
 import 'unfetch/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import EventsDataFetcher from './components/EventsDataFetcher';
+import Wrapper from './components/Wrapper';
 
 const App = () => (
   <div className="container">
-    <h1>Upcoming Events</h1>
-    <EventsDataFetcher />
+    <h1>Events</h1>
+    <Wrapper />
   </div>
 );
 
