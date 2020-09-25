@@ -53,15 +53,15 @@ const PastEventsDataFetcher = () => {
       <p>Past events showing</p>
       <PastEventsList events={events} />
 
-        <div className="container">
-          <div className="row margin-bottom-20">
-            <div className="col-md-6"></div>
-            <div className="col-md-18 past-event-container">
-              { isFetchingMore && <Loading /> }
-              { !isFetchingMore && <button className="btn btn-primary" onClick={fetchMore}>Load More</button>}
-            </div>
+      <div className="container">
+        <div className="row margin-bottom-20">
+          <div className="col-md-6"></div>
+          <div className="col-md-18 past-event-container">
+            { isFetchingMore && <Loading /> }
+            { !isFetchingMore && <button className="btn btn-primary" onClick={fetchMore}>Load More</button>}
           </div>
         </div>
+      </div>
     </>
   )
 }
