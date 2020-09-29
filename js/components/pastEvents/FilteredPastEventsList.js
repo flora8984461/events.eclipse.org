@@ -2,7 +2,7 @@ import React from 'react';
 import EventCard from '../EventCard';
 import Loading from '../Loading';
 
-const PastEventsList = ({ events, isFetchingMore, fetchMore, newLoadMore }) => {
+const FilteredPastEventsList = ({ events, isFetchingMore, fetchMore, groupParas, typeParas }) => {
 
   return (
     <> 
@@ -15,7 +15,7 @@ const PastEventsList = ({ events, isFetchingMore, fetchMore, newLoadMore }) => {
   
         <div className="past-event-container">
           { isFetchingMore && <Loading /> }
-          { !isFetchingMore && (!newLoadMore) && <button className="btn btn-primary" onClick={fetchMore}>Load More</button>}
+          { !isFetchingMore && <button className="btn btn-primary" onClick={() => fetchMore(groupParas, typeParas)}>New Load More</button>}
         </div>
       </div>
 
@@ -23,4 +23,4 @@ const PastEventsList = ({ events, isFetchingMore, fetchMore, newLoadMore }) => {
   )
 }
 
-export default PastEventsList
+export default FilteredPastEventsList
