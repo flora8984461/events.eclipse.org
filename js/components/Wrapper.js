@@ -18,7 +18,6 @@ const Wrapper = () => {
     <div>
       <button className="btn btn-default margin-right-20" onClick={showUpcoming}> Upcoming events </button>
       <button className="btn btn-default" onClick={showPastEvents}> Past events </button>
-
       { upcoming == true ? <EventsDataFetcher /> : <PastEventsDataFetcher /> }
     </div>
   )
