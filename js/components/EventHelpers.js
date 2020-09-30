@@ -238,3 +238,10 @@ export function alphaOrder(array) {
   }
 
 }
+
+export function hasSelectedItems(items) {
+  let selectedItems = getSelectedItems(items)
+  if (selectedItems && selectedItems.length > 0) {
+    return selectedItems
+  } else return false
+}

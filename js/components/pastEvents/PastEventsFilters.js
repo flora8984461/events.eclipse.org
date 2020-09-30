@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import Checkbox from '../Checkbox';
-import { EVENT_TYPES, WORKING_GROUPS, alphaOrder } from '../EventHelpers';
+import { EVENT_TYPES, WORKING_GROUPS, EVENT_TIME, alphaOrder } from '../EventHelpers';
 import PropTypes from 'prop-types';
 
-const PastEventsFilters = ({ checkedTypes, setCheckedTypes, checkedWorkingGroups, setCheckedWorkingGroups }) => {
+const PastEventsFilters = ({ 
+  checkedTypes, 
+  setCheckedTypes, 
+  checkedWorkingGroups, 
+  setCheckedWorkingGroups, 
+  checkedEventTime, 
+  setCheckedEventTime
+}) => {
   
   const determineInitialState = () => {
     return window.innerWidth > 991
@@ -11,6 +18,7 @@ const PastEventsFilters = ({ checkedTypes, setCheckedTypes, checkedWorkingGroups
 
   const [showTypes, setShowTypes] = useState(determineInitialState())
   const [showWorkingGroups, setShowWorkingGroups] = useState(determineInitialState())
+  const [showEventTime, setShowEventTime] = useState(determineInitialState())
 
   const handleChange = (e) => {
     if (checkedWorkingGroups && setCheckedWorkingGroups) {
@@ -41,6 +49,20 @@ const PastEventsFilters = ({ checkedTypes, setCheckedTypes, checkedWorkingGroups
       }
     }
 
+    if (checkedEventTime && setCheckedEventTime) {
+      if (e.target.checked) {
+        setCheckedEventTime({
+         ...checkedEventTime,
+         [e.target.name]: e.target.checked
+       });
+      } else {
+        setCheckedEventTime({
+           ...checkedEventTime,
+          [e.target.name]: undefined
+        })
+      }
+    }
+
   }
 
   const toggleTypes = () => {
@@ -51,25 +73,29 @@ const PastEventsFilters = ({ checkedTypes, setCheckedTypes, checkedWorkingGroups
     setShowWorkingGroups(!showWorkingGroups)
   }
 
-  const WorkingGroups = () => {
-    if (checkedWorkingGroups && setCheckedWorkingGroups) {
+  const toggleEventTimes = () => {
+    setShowEventTime(!showEventTime)
+  }
+
+  function renderFilterComponent(checkedFilter, filterCheckFunc, filterShowingState, filterShowingFunc, filterDataArray, filterTypeName) {
+    if (checkedFilter && filterCheckFunc) {
       return (
         <> 
           <button
-            onClick={toggleWorkingGroups}
+            onClick={filterShowingFunc}
             className="event-filter-title"
             >
-              CATEGORIES
+              { filterTypeName }
               <i className="fa fa-angle-down event-filter-expandable-icon" aria-hidden="true"></i>
           </button>
-          { showWorkingGroups && 
+          { filterShowingState && 
             <ul className="event-filter-checkbox-list">
-                { alphaOrder(WORKING_GROUPS).map(item => (
+                { filterDataArray.map(item => (
                   <li key={item.id}>
                     <label key={item.id}>
                       <Checkbox
                         name={item.id} 
-                        checked={checkedWorkingGroups[item.id]} 
+                        checked={checkedFilter[item.id]} 
                         onChange={handleChange}
                       />
                       {item.name}
@@ -83,45 +109,14 @@ const PastEventsFilters = ({ checkedTypes, setCheckedTypes, checkedWorkingGroups
     }
   }
 
-
-  const EventTypes = () => {
-    if (checkedTypes && setCheckedTypes) {
-      return (
-        <>
-          <button
-            onClick={toggleTypes}
-            className="event-filter-title"
-          >
-            EVENT TYPE
-            <i className="fa fa-angle-down event-filter-expandable-icon" aria-hidden="true"></i>
-          </button>
-          { showTypes &&
-            <ul className="event-filter-checkbox-list">
-                { alphaOrder(EVENT_TYPES).map(item => (
-                  <li key={item.id}>
-                    <label key={item.id}>
-                      <Checkbox
-                        name={item.id}
-                        checked={checkedTypes[item.id]}
-                        onChange={handleChange}
-                      />
-                      {item.name}
-                    </label>
-                  </li>
-                )) }
-            </ul>
-          }
-        </>
-      )
-    }
-  }
-
   return (
     <div className="margin-bottom-10">
-      {WorkingGroups()}
-      {EventTypes()}
+      {renderFilterComponent(checkedTypes, setCheckedTypes, showTypes, toggleTypes, alphaOrder(EVENT_TYPES), "EVENT TYPE")}
+      {renderFilterComponent(checkedWorkingGroups, setCheckedWorkingGroups, showWorkingGroups, toggleWorkingGroups, alphaOrder(WORKING_GROUPS), "CATEGORIES")}
+      {renderFilterComponent(checkedEventTime, setCheckedEventTime, showEventTime, toggleEventTimes, EVENT_TIME, "TIME")}
     </div>
   )
+
 }
 
 PastEventsFilters.propTypes = {
@@ -129,6 +124,8 @@ PastEventsFilters.propTypes = {
   setCheckedTypes: PropTypes.func,
   checkedWorkingGroups: PropTypes.object,
   setCheckedWorkingGroups: PropTypes.func,
+  checkedEventTime: PropTypes.object,
+  setCheckedEventTime: PropTypes.func,
 }
 
 export default PastEventsFilters
