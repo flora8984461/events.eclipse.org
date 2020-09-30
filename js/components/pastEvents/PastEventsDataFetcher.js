@@ -4,8 +4,9 @@ import { alertTypes } from '../AlertsEnum';
 import Alerts from '../Alerts';
 // import PastEventsList from './PastEventsList';
 import FilteredPastEventsList from './FilteredPastEventsList';
+import CustomSearch from '../CustomSearch';
 import PastEventsFilters from './PastEventsFilters';
-import { getSelectedItems } from '../EventHelpers';
+import { hasSelectedItems } from '../EventHelpers';
 
 const PastEventsDataFetcher = () => {
 
@@ -15,39 +16,38 @@ const PastEventsDataFetcher = () => {
   // const [currentPage, setCurrentPage] = useState(1)
   const [isFetchingMore, setIsFetchingMore] = useState(false)
 
+  const [searchValue, setSearchValue] = useState('')
   const [checkedWorkingGroups, setCheckedWorkingGroups] = useState({})
   const [checkedTypes, setCheckedTypes] = useState({})
+  const [checkedEventTime, setCheckedEventTime] = useState({})
   const [currentPageWithFilters, setCurrentPageWithFilters] = useState(1)
   const [dataWithFilters, setDataWithFilters] = useState([])
 
-  function hasSelectedWorkingGroups(items) {
-    let selectedWorkingGroups = getSelectedItems(items)
-    if (selectedWorkingGroups && selectedWorkingGroups.length > 0) {
-      return selectedWorkingGroups
-    } else return false
-  }
-
-  function hasSelectedEventTypes(items) {
-    let selectedEventTypes = getSelectedItems(items)
-    if (selectedEventTypes && selectedEventTypes.length > 0) {
-      return selectedEventTypes
-    } else return false
-  }
-
-  function getUrl(page, groupParas, typeParas) {
-    let url = `https://newsroom.eclipse.org/api/events?parameters[past_event_only]=1&page=${page}&pagesize=6`
+  function getUrl(page, searchParas, timeParas, groupParas, typeParas) {
+    let url = `https://newsroom.eclipse.org/api/events?&page=${page}&pagesize=6`
+    if (timeParas && timeParas.length === 1) {
+      url = url + `&parameters[${timeParas[0]}]=1`
+      if (timeParas[0] === "upcoming_only") {
+        url = url + "&options[orderby][field_event_date]=ASC"
+      }
+    }
     for (let i=0; i<groupParas.length; i++) {
       url = url + "&parameters[publish_to][]=" + groupParas[i]
     }
     for (let j=0; j<typeParas.length; j++) {
       url = url + "&parameters[type][]=" + typeParas[j]
     }
+    if (searchParas) {
+      url = url + "&parameters[search]=" + searchParas
+    }
     return url
   }
 
-  const fetchingDataWithParas = (page, groupParas, typeParas, forceUpdate) => {
-
-    let url = getUrl(page, groupParas, typeParas)
+  const fetchingDataWithParas = (page, searchParas, timeParas, groupParas, typeParas, forceUpdate) => {
+    if (page === 1) {
+      setLoading(true)
+    }
+    let url = getUrl(page, searchParas, timeParas, groupParas, typeParas)
     fetch(url)
     .then((res) => res.json())
     .then(
@@ -69,17 +69,17 @@ const PastEventsDataFetcher = () => {
 
   }
   
-  // Detect if checkedWorkingGroups, checkedTypes has changed, do the following func
+  // Detect if searchValue, checkedEventTime, checkedWorkingGroups, checkedTypes has changed, do the following func
   useEffect(() => {
     setCurrentPageWithFilters(1)
-    fetchingDataWithParas(1, hasSelectedWorkingGroups(checkedWorkingGroups), hasSelectedEventTypes(checkedTypes), true)
+    fetchingDataWithParas(1, searchValue, hasSelectedItems(checkedEventTime), hasSelectedItems(checkedWorkingGroups), hasSelectedItems(checkedTypes), true)
     
-  }, [checkedWorkingGroups, checkedTypes])
+  }, [searchValue, checkedWorkingGroups, checkedTypes, checkedEventTime])
 
   // get more when click on the button
-  const fetchMoreWithParas = (groupParas, typeParas) => {
+  const fetchMoreWithParas = () => {
     setIsFetchingMore(true)
-    fetchingDataWithParas((currentPageWithFilters + 1), groupParas, typeParas, false)
+    fetchingDataWithParas((currentPageWithFilters + 1), searchValue, hasSelectedItems(checkedEventTime), hasSelectedItems(checkedWorkingGroups), hasSelectedItems(checkedTypes), false)
     setCurrentPageWithFilters(prev => prev + 1)
   }
 
@@ -87,10 +87,11 @@ const PastEventsDataFetcher = () => {
 
   return (
     <>
-      <p>Past events showing</p>
+      <p>Past events and upcoming events</p>
       <div className="container">
         <div className="row margin-bottom-20">
           <div className="col-md-6">
+            <CustomSearch searchValue={searchValue} setSearchValue={setSearchValue} />
             <PastEventsFilters
               checkedTypes={checkedTypes}
               setCheckedTypes={setCheckedTypes}
@@ -99,16 +100,16 @@ const PastEventsDataFetcher = () => {
               checkedWorkingGroups={checkedWorkingGroups}
               setCheckedWorkingGroups={setCheckedWorkingGroups}
             />
+            <PastEventsFilters
+              checkedEventTime={checkedEventTime}
+              setCheckedEventTime={setCheckedEventTime}
+            />
           </div>
           { loading ? <Loading /> : 
-            // ( hasSelectedWorkingGroups(checkedWorkingGroups) === false && hasSelectedEventTypes(checkedTypes) === false ) ? 
-            // <PastEventsList events={events} isFetchingMore={isFetchingMore} fetchMore={fetchMore} /> :
             <FilteredPastEventsList
               events={dataWithFilters} 
               isFetchingMore={isFetchingMore} 
-              fetchMore={fetchMoreWithParas} 
-              groupParas={hasSelectedWorkingGroups(checkedWorkingGroups)} 
-              typeParas={hasSelectedEventTypes(checkedTypes)}
+              fetchMore={fetchMoreWithParas}
             />
           }
         </div>

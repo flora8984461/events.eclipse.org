@@ -100,6 +100,17 @@ export const EVENT_TYPES = [
   },
 ]
 
+export const EVENT_TIME = [
+  {
+    id: "upcoming_only",
+    name: "Upcoming events"
+  },
+  {
+    id: "past_event_only",
+    name: "Past events"
+  },
+]
+
 export function checkEventWorkingGroups(events, filter) {
   for (let i=0; i<events.length; i++) {
     if (events[i].publish_to.includes(filter.id)) { // as long as find one event has the working group
@@ -222,4 +233,11 @@ export function alphaOrder(array) {
     return array.sort((a, b) => a?.name.localeCompare(b?.name))
   }
 
+}
+
+export function hasSelectedItems(items) {
+  let selectedItems = getSelectedItems(items)
+  if (selectedItems && selectedItems.length > 0) {
+    return selectedItems
+  } else return false
 }
