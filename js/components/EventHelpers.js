@@ -245,3 +245,24 @@ export function hasSelectedItems(items) {
     return selectedItems
   } else return false
 }
+
+
+export function getUrl(page, searchParas, timeParas, groupParas, typeParas, upcomingReachEnd) {
+  let url = `https://newsroom.eclipse.org/api/events?&page=${page}&pagesize=6`
+  if (timeParas === "upcoming") { // do not show past events, by default only show upcoming
+    url = url + "&parameters[upcoming_only]=1&options[orderby][field_event_date]=ASC"
+  }
+  if (timeParas === "past") { // show past events
+    url = url + "&parameters[past_event_only]=1"
+  }
+  for (let i=0; i<groupParas.length; i++) {
+    url = url + "&parameters[publish_to][]=" + groupParas[i]
+  }
+  for (let j=0; j<typeParas.length; j++) {
+    url = url + "&parameters[type][]=" + typeParas[j]
+  }
+  if (searchParas) {
+    url = url + "&parameters[search]=" + searchParas
+  }
+  return url
+}

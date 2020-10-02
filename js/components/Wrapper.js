@@ -1,25 +1,63 @@
 import React, { useState } from 'react';
-import EventsDataFetcher from './EventsDataFetcher';
+import CustomSearch from './CustomSearch';
+import PastEventsFilters from './pastEvents/PastEventsFilters';
 import PastEventsDataFetcher from './pastEvents/PastEventsDataFetcher';
 
 const Wrapper = () => {
 
-  const [upcoming, setUpcoming] = useState(true)
+  const [triggerSearchValue, setTriggerSearchValue] = useState("")
+  const [checkedWorkingGroups, setCheckedWorkingGroups] = useState({})
+  const [checkedTypes, setCheckedTypes] = useState({})
 
-  const showPastEvents = () => {
-    setUpcoming(false)
-  }
-
-  const showUpcoming = () => {
-    setUpcoming(true)
-  }
+  const [upcomingReachEnd, setUpcomingReachEnd] = useState(false)
+  const [showPastEvents, setShowPastEvents] = useState(false)
 
   return (
-    <div>
-      <button className="btn btn-default margin-right-20" onClick={showUpcoming}> Upcoming events </button>
-      <button className="btn btn-default" onClick={showPastEvents}> Past events together with upcoming events </button>
-      { upcoming == true ? <EventsDataFetcher /> : <PastEventsDataFetcher /> }
-    </div>
+    <>
+      <div className="container">
+        <div className="row margin-bottom-20">
+          <div className="col-md-6">
+            <CustomSearch triggerSearchValue={triggerSearchValue} setTriggerSearchValue={setTriggerSearchValue} />
+            <PastEventsFilters
+              checkedTypes={checkedTypes}
+              setCheckedTypes={setCheckedTypes}
+            />
+            <PastEventsFilters
+              checkedWorkingGroups={checkedWorkingGroups}
+              setCheckedWorkingGroups={setCheckedWorkingGroups}
+            />
+            <PastEventsFilters
+              showPastEvents={showPastEvents}
+              setShowPastEvents={setShowPastEvents}
+            />
+          </div>
+          <div className="col-md-18 event-list-wrapper">
+
+          <PastEventsDataFetcher
+            eventTime="upcoming"
+            searchValue={triggerSearchValue}
+            checkedWorkingGroups={checkedWorkingGroups}
+            checkedTypes={checkedTypes}
+            setUpcomingReachEnd={setUpcomingReachEnd}
+          />
+
+            { showPastEvents && upcomingReachEnd && 
+            <>
+            <div className="event-load-more"><p>Past Events</p></div>
+            <PastEventsDataFetcher
+              eventTime="past"
+              searchValue={triggerSearchValue} 
+              checkedWorkingGroups={checkedWorkingGroups} 
+              checkedTypes={checkedTypes}
+              upcomingReachEnd={upcomingReachEnd}
+              past={true}
+            />
+            </> }
+
+          </div>
+        </div>
+      </div>
+    </>
   )
 }
 

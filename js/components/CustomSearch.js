@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-const CustomSearch = ({ setSearchValue }) => {
+const CustomSearch = ({ setTriggerSearchValue }) => {
   
+  const [searchValue, setSearchValue] = useState("")
+
   const handleSearchOnChange = (e) => {
     setSearchValue(e.target.value)
   }
+
+  useEffect(() => {
+    if (searchValue.length > 2) {
+      setTriggerSearchValue(searchValue)
+    }
+    if (searchValue.length === 0) {
+      setTriggerSearchValue(searchValue)
+    }
+  })
 
   return (
     <div className="inner-addon left-addon">
@@ -21,7 +32,7 @@ const CustomSearch = ({ setSearchValue }) => {
 }
 
 CustomSearch.propTypes = {
-  setSearchValue: PropTypes.func.isRequired,
+  setTriggerSearchValue: PropTypes.func.isRequired,
 }
 
 

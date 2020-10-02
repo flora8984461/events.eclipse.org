@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Checkbox from '../Checkbox';
-import { EVENT_TYPES, WORKING_GROUPS, EVENT_TIME, alphaOrder } from '../EventHelpers';
+import { EVENT_TYPES, WORKING_GROUPS, alphaOrder } from '../EventHelpers';
 import PropTypes from 'prop-types';
 
 const PastEventsFilters = ({ 
@@ -8,8 +8,8 @@ const PastEventsFilters = ({
   setCheckedTypes, 
   checkedWorkingGroups, 
   setCheckedWorkingGroups, 
-  checkedEventTime, 
-  setCheckedEventTime
+  showPastEvents, 
+  setShowPastEvents
 }) => {
   
   const determineInitialState = () => {
@@ -48,21 +48,6 @@ const PastEventsFilters = ({
         })
       }
     }
-
-    if (checkedEventTime && setCheckedEventTime) {
-      if (e.target.checked) {
-        setCheckedEventTime({
-         ...checkedEventTime,
-         [e.target.name]: e.target.checked
-       });
-      } else {
-        setCheckedEventTime({
-           ...checkedEventTime,
-          [e.target.name]: undefined
-        })
-      }
-    }
-
   }
 
   const toggleTypes = () => {
@@ -109,11 +94,41 @@ const PastEventsFilters = ({
     }
   }
 
+  const renderTimeCheckbox = () => {
+    if (setShowPastEvents) {
+      return (
+        <> 
+          <button
+            onClick={toggleEventTimes}
+            className="event-filter-title"
+            >
+              PAST EVENTS
+              <i className="fa fa-angle-down event-filter-expandable-icon" aria-hidden="true"></i>
+          </button>
+          { showEventTime && 
+            <ul className="event-filter-checkbox-list">
+              <li key="show_past_events_li">
+                <label key="show_past_events_label">
+                  <Checkbox
+                    name="show_past_events"
+                    checked={showPastEvents}
+                    onChange={() => setShowPastEvents(!showPastEvents)}
+                  />
+                  Show Past Events
+                </label>
+              </li>
+            </ul>
+          }
+        </>
+      )
+    }
+  }
+
   return (
     <div className="margin-bottom-10">
       {renderFilterComponent(checkedTypes, setCheckedTypes, showTypes, toggleTypes, alphaOrder(EVENT_TYPES), "EVENT TYPE")}
       {renderFilterComponent(checkedWorkingGroups, setCheckedWorkingGroups, showWorkingGroups, toggleWorkingGroups, alphaOrder(WORKING_GROUPS), "CATEGORIES")}
-      {renderFilterComponent(checkedEventTime, setCheckedEventTime, showEventTime, toggleEventTimes, EVENT_TIME, "TIME")}
+      {renderTimeCheckbox()}
     </div>
   )
 
@@ -124,8 +139,8 @@ PastEventsFilters.propTypes = {
   setCheckedTypes: PropTypes.func,
   checkedWorkingGroups: PropTypes.object,
   setCheckedWorkingGroups: PropTypes.func,
-  checkedEventTime: PropTypes.object,
-  setCheckedEventTime: PropTypes.func,
+  showPastEvents: PropTypes.bool,
+  setShowPastEvents: PropTypes.func,
 }
 
 export default PastEventsFilters
