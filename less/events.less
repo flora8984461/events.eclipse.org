@@ -219,12 +219,38 @@
     width: 100%;
 }
 
-.past-true {
+.event-past {
     .event-card {
         -webkit-filter: grayscale(100%) !important;
         filter: grayscale(100%) !important;
     }
 }
+
+.past-events-line {
+    width: inherit;
+    text-align: center;
+    overflow: hidden;
+}
+
+.past-events-line:before, .past-events-line:after {
+    background-color: #000;
+    content: "";
+    display: inline-block;
+    height: 1px;
+    position: relative;
+    vertical-align: middle;
+    width: 50%;
+  }
+
+  .past-events-line:before {
+    right: 0.5em;
+    margin-left: -50%;
+  }
+  
+  .past-events-line:after {
+    left: 0.5em;
+    margin-right: -50%;
+  }
 
 /** CustomSearch Style start **/
 /* enable relative positioning */

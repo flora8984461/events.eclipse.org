@@ -50,5 +50,4 @@ EventDetails.propTypes = {
   event: PropTypes.object.isRequired,
 }
 
-
 export default EventCard

@@ -3,7 +3,7 @@ import Checkbox from '../Checkbox';
 import { EVENT_TYPES, WORKING_GROUPS, alphaOrder } from '../EventHelpers';
 import PropTypes from 'prop-types';
 
-const PastEventsFilters = ({ 
+const EventsCheckboxFilters = ({ 
   checkedTypes, 
   setCheckedTypes, 
   checkedWorkingGroups, 
@@ -134,7 +134,7 @@ const PastEventsFilters = ({
 
 }
 
-PastEventsFilters.propTypes = {
+EventsCheckboxFilters.propTypes = {
   checkedTypes: PropTypes.object,
   setCheckedTypes: PropTypes.func,
   checkedWorkingGroups: PropTypes.object,
@@ -143,4 +143,4 @@ PastEventsFilters.propTypes = {
   setShowPastEvents: PropTypes.func,
 }
 
-export default PastEventsFilters
+export default EventsCheckboxFilters

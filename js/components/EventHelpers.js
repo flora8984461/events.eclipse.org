@@ -115,35 +115,6 @@ export const EVENT_ATTENDANCE_TYPE = [
   }
 ]
 
-export function checkEventWorkingGroups(events, filter) {
-  for (let i=0; i<events.length; i++) {
-    if (events[i].publish_to.includes(filter.id)) { // as long as find one event has the working group
-      return true
-    }
-  }
-}
-
-export function checkEventTypes(events, filter) {
-  for (let i=0; i<events.length; i++) {
-    if (events[i].type == filter.id) {  // as long as find one event is of the type
-      return true
-    }
-  }
-}
-
-export function checkFilterHasEvents(filters, filterType, events) {
-  switch(filterType) {
-    case "WORKINGGROUPS":
-      return filters.filter(el => checkEventWorkingGroups(events, el))
-
-    case "EVENTTYPE":
-      return filters.filter(el => checkEventTypes(events, el))
-
-    default:
-      return
-  }
-}
-
 export function getSelectedItems(checkedItems) {
   let selected = []
   if (checkedItems) {
@@ -154,37 +125,6 @@ export function getSelectedItems(checkedItems) {
     }
     return selected
   }
-}
-
-export function getEventsByWorkingGroups(checkedItems, events) {
-  let checked = getSelectedItems(checkedItems)
-  if (checked && checked.length > 0) {
-    let result = events.filter( el => checked.some(item => el.publish_to.includes(item)) )
-    return result
-  } else return events
-}
-
-export function getEventsByType(checkedItems, events) {
-  let checked = getSelectedItems(checkedItems)
-  if (checked && checked.length > 0) {
-    let result = events.filter( el => checked.includes(el.type) )
-    return result
-  } else return events
-}
-
-export function getSearchedEvents(events, searchValue) {
-  if (searchValue && searchValue != '') {
-    let result = events.filter(el => el.title.toLowerCase().includes(searchValue.toLowerCase()))
-    return result
-  } else {
-    return events
-  }
-}
-
-export function getFilteredEvents(events, searchValue, checkedWorkingGroups, checkedTypes) {
-  let selectedByWorkingGroups = getEventsByWorkingGroups(checkedWorkingGroups, events)
-  let selectedByTypes = getEventsByType(checkedTypes, selectedByWorkingGroups)
-  return getSearchedEvents(selectedByTypes, searchValue)
 }
 
 export function hasAddress(event) {
@@ -247,7 +187,7 @@ export function hasSelectedItems(items) {
 }
 
 
-export function getUrl(page, searchParas, timeParas, groupParas, typeParas, upcomingReachEnd) {
+export function getUrl(page, searchParas, timeParas, groupParas, typeParas) {
   let url = `https://newsroom.eclipse.org/api/events?&page=${page}&pagesize=6`
   if (timeParas === "upcoming") { // do not show past events, by default only show upcoming
     url = url + "&parameters[upcoming_only]=1&options[orderby][field_event_date]=ASC"

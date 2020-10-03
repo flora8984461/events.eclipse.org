@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import CustomSearch from './CustomSearch';
-import PastEventsFilters from './pastEvents/PastEventsFilters';
-import PastEventsDataFetcher from './pastEvents/PastEventsDataFetcher';
+import EventsCheckboxFilters from './pastAndUpcomingEvents/EventsCheckboxFilters';
+import EventsDataFetcher from './pastAndUpcomingEvents/EventsDataFetcher';
 
 const Wrapper = () => {
 
@@ -9,6 +9,7 @@ const Wrapper = () => {
   const [checkedWorkingGroups, setCheckedWorkingGroups] = useState({})
   const [checkedTypes, setCheckedTypes] = useState({})
 
+  const [pastReachEnd, setPastReachEnd] = useState(false)
   const [upcomingReachEnd, setUpcomingReachEnd] = useState(false)
   const [showPastEvents, setShowPastEvents] = useState(false)
 
@@ -18,38 +19,40 @@ const Wrapper = () => {
         <div className="row margin-bottom-20">
           <div className="col-md-6">
             <CustomSearch triggerSearchValue={triggerSearchValue} setTriggerSearchValue={setTriggerSearchValue} />
-            <PastEventsFilters
+            <EventsCheckboxFilters
               checkedTypes={checkedTypes}
               setCheckedTypes={setCheckedTypes}
             />
-            <PastEventsFilters
+            <EventsCheckboxFilters
               checkedWorkingGroups={checkedWorkingGroups}
               setCheckedWorkingGroups={setCheckedWorkingGroups}
             />
-            <PastEventsFilters
+            <EventsCheckboxFilters
               showPastEvents={showPastEvents}
               setShowPastEvents={setShowPastEvents}
             />
           </div>
           <div className="col-md-18 event-list-wrapper">
 
-          <PastEventsDataFetcher
+          <EventsDataFetcher
             eventTime="upcoming"
             searchValue={triggerSearchValue}
             checkedWorkingGroups={checkedWorkingGroups}
             checkedTypes={checkedTypes}
-            setUpcomingReachEnd={setUpcomingReachEnd}
+            reachEnd={upcomingReachEnd}
+            setReachEnd={setUpcomingReachEnd}
           />
 
             { showPastEvents && upcomingReachEnd && 
             <>
-            <div className="event-load-more"><p>Past Events</p></div>
-            <PastEventsDataFetcher
+            <div className="event-load-more"><p className="past-events-line">Past Events</p></div>
+            <EventsDataFetcher
               eventTime="past"
               searchValue={triggerSearchValue} 
               checkedWorkingGroups={checkedWorkingGroups} 
               checkedTypes={checkedTypes}
-              upcomingReachEnd={upcomingReachEnd}
+              reachEnd={pastReachEnd}
+              setReachEnd={setPastReachEnd}
               past={true}
             />
             </> }
