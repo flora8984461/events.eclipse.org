@@ -2,7 +2,7 @@ import React from 'react';
 import EventLists from '../../js/components/pastAndUpcomingEvents/EventLists';
 import { testEventData } from './TestEventsData';
 // Testing Lib
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 describe('Test render events list and filters', () => {
@@ -14,7 +14,7 @@ describe('Test render events list and filters', () => {
   it('Can render an event card', () => {
 
     render(
-      <EventLists events={testEventData} />
+      <EventLists events={testEventData} isFetchingMore={false} fetchMore={jest.fn()} reachEnd={true} />
     )
     expect(screen.getByText(firstEvent.title)).toBeInTheDocument()
     expect(screen.getByText(secondEvent.title)).toBeInTheDocument()
