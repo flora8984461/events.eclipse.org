@@ -4,8 +4,7 @@ import {
   generateTimes,
   alphaOrder,
   hasSelectedItems,
-  WORKING_GROUPS,
-  EVENT_TYPES
+  getUrl
 } from '../../js/components/EventHelpers';
 
 describe('Test getSelectedItems function', () => {
@@ -138,3 +137,31 @@ describe('Test alphaOrder function', () => {
     expect( alphaOrder(arr_II) ).toEqual(result_II)
   });
 });
+
+describe('Test getUrl function', () => {
+
+  it('Test url is upcoming only and added params correctly', () => {
+    let testPagePara = 1
+    let testSearchParas = "con"
+    let testTimeParas = "upcoming"
+    let testGroupParas = ["eclipse_org"]
+    let testTypeParas = ["ee", "ve"]
+  
+    expect(getUrl(testPagePara, testSearchParas, testTimeParas, testGroupParas, testTypeParas)).toBe(
+      "https://newsroom.eclipse.org/api/events?&page=1&pagesize=6&parameters[upcoming_only]=1&options[orderby][field_event_date]=ASC&parameters[publish_to][]=eclipse_org&parameters[type][]=ee&parameters[type][]=ve&parameters[search]=con"
+    )
+  })
+
+  it('Test url is past events only and added params correctly', () => {
+    let testPagePara = 2
+    let testSearchParas = "con"
+    let testTimeParas = "past"
+    let testGroupParas = ["eclipse_org", "openmdm"]
+    let testTypeParas = ["ee", "ve"]
+  
+    expect(getUrl(testPagePara, testSearchParas, testTimeParas, testGroupParas, testTypeParas)).toBe(
+      "https://newsroom.eclipse.org/api/events?&page=2&pagesize=6&parameters[past_event_only]=1&parameters[publish_to][]=eclipse_org&parameters[publish_to][]=openmdm&parameters[type][]=ee&parameters[type][]=ve&parameters[search]=con"
+    )
+  })
+
+})
