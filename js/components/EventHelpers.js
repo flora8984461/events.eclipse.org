@@ -188,7 +188,7 @@ export function hasSelectedItems(items) {
 
 
 export function getUrl(page, searchParas, timeParas, groupParas, typeParas) {
-  let url = `https://newsroom.eclipse.org/api/events?&page=${page}&pagesize=6`
+  let url = `https://newsroom.eclipse.org/api/events?&page=${page}&pagesize=20`
   if (timeParas === "upcoming") { // do not show past events, by default only show upcoming
     url = url + "&parameters[upcoming_only]=1&options[orderby][field_event_date]=ASC"
   }
