@@ -148,7 +148,7 @@ describe('Test getUrl function', () => {
     let testTypeParas = ["ee", "ve"]
   
     expect(getUrl(testPagePara, testSearchParas, testTimeParas, testGroupParas, testTypeParas)).toBe(
-      "https://newsroom.eclipse.org/api/events?&page=1&pagesize=6&parameters[upcoming_only]=1&options[orderby][field_event_date]=ASC&parameters[publish_to][]=eclipse_org&parameters[type][]=ee&parameters[type][]=ve&parameters[search]=con"
+      "https://newsroom.eclipse.org/api/events?&page=1&pagesize=20&parameters[upcoming_only]=1&options[orderby][field_event_date]=ASC&parameters[publish_to][]=eclipse_org&parameters[type][]=ee&parameters[type][]=ve&parameters[search]=con"
     )
   })
 
@@ -160,7 +160,7 @@ describe('Test getUrl function', () => {
     let testTypeParas = ["ee", "ve"]
   
     expect(getUrl(testPagePara, testSearchParas, testTimeParas, testGroupParas, testTypeParas)).toBe(
-      "https://newsroom.eclipse.org/api/events?&page=2&pagesize=6&parameters[past_event_only]=1&parameters[publish_to][]=eclipse_org&parameters[publish_to][]=openmdm&parameters[type][]=ee&parameters[type][]=ve&parameters[search]=con"
+      "https://newsroom.eclipse.org/api/events?&page=2&pagesize=20&parameters[past_event_only]=1&parameters[publish_to][]=eclipse_org&parameters[publish_to][]=openmdm&parameters[type][]=ee&parameters[type][]=ve&parameters[search]=con"
     )
   })
 
