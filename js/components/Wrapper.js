@@ -41,6 +41,7 @@ const Wrapper = () => {
             checkedTypes={checkedTypes}
             reachEnd={upcomingReachEnd}
             setReachEnd={setUpcomingReachEnd}
+            showPastEvents={showPastEvents}
           />
 
             { showPastEvents && upcomingReachEnd && 

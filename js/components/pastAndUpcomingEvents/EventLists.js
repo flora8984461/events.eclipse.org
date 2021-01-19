@@ -3,15 +3,10 @@ import EventCard from '../EventCard';
 import Loading from '../Loading';
 import PropTypes from 'prop-types';
 
-const EventLists = ({ events, isFetchingMore, fetchMore, reachEnd, eventTime }) => {
+const EventLists = ({ events, isFetchingMore, fetchMore, reachEnd, eventTime, showPastEvents }) => {
 
   if (events.length === 0 && !isFetchingMore) {
-
-    if (eventTime === "upcoming") {
-      return "Sorry, we could not find the match in upcoming events"
-    } else if (eventTime === "past") {
-      return "Sorry, we could not find the match in past events"
-    }
+    return <p style={{marginLeft: "auto", marginRight: "auto"}}>Sorry, we could not find the match in {eventTime} events</p>
   }
 
   return (
@@ -23,7 +18,8 @@ const EventLists = ({ events, isFetchingMore, fetchMore, reachEnd, eventTime }) 
       ))}
 
       <div className="event-load-more">
-        { reachEnd ? <p>Sorry, we reached the end with this search</p> : 
+        { reachEnd ?
+        ( eventTime === "upcoming" && showPastEvents ? null : <p className="margin-5">Sorry, we reached the end with this search</p> ) : 
          ( isFetchingMore ? <Loading /> : 
           !isFetchingMore && <button className="btn btn-primary margin-top-10" onClick={fetchMore}>Load More</button> )}
       </div>

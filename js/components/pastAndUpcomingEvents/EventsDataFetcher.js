@@ -5,7 +5,7 @@ import EventLists from './EventLists';
 import { hasSelectedItems, getUrl } from '../EventHelpers';
 import PropTypes from 'prop-types';
 
-const EventsDataFetcher = ({ eventTime, searchValue, checkedWorkingGroups, checkedTypes, reachEnd, setReachEnd }) => {
+const EventsDataFetcher = ({ eventTime, searchValue, checkedWorkingGroups, checkedTypes, reachEnd, setReachEnd, showPastEvents }) => {
 
   const [error, setError] = useState(null)
   const [isFetchingMore, setIsFetchingMore] = useState(false)
@@ -77,6 +77,7 @@ const EventsDataFetcher = ({ eventTime, searchValue, checkedWorkingGroups, check
         fetchMore={fetchMoreWithParas}
         reachEnd={reachEnd}
         eventTime={eventTime}
+        showPastEvents={showPastEvents}
       />
     </>
   )
