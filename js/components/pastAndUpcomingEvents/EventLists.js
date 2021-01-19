@@ -5,6 +5,15 @@ import PropTypes from 'prop-types';
 
 const EventLists = ({ events, isFetchingMore, fetchMore, reachEnd, eventTime }) => {
 
+  if (events.length === 0 && !isFetchingMore) {
+
+    if (eventTime === "upcoming") {
+      return "Sorry, we could not find the match in upcoming events"
+    } else if (eventTime === "past") {
+      return "Sorry, we could not find the match in past events"
+    }
+  }
+
   return (
     <> 
       {events.map((event) => (
@@ -14,7 +23,7 @@ const EventLists = ({ events, isFetchingMore, fetchMore, reachEnd, eventTime }) 
       ))}
 
       <div className="event-load-more">
-        { reachEnd ? <p></p> : 
+        { reachEnd ? <p>Sorry, we reached the end with this search</p> : 
          ( isFetchingMore ? <Loading /> : 
           !isFetchingMore && <button className="btn btn-primary margin-top-10" onClick={fetchMore}>Load More</button> )}
       </div>

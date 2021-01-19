@@ -22,6 +22,9 @@ const EventsDataFetcher = ({ eventTime, searchValue, checkedWorkingGroups, check
       (result) => {
         if (result.events.length === 0) {
           setReachEnd(true)
+          if (forceUpdate) {
+            setEventsData(result.events)
+          }
         } else {
           // Force refresh when using filters
           if (forceUpdate) {
