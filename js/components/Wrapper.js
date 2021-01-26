@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CustomSearch from './CustomSearch';
 import EventsCheckboxFilters from './pastAndUpcomingEvents/EventsCheckboxFilters';
 import EventsDataFetcher from './pastAndUpcomingEvents/EventsDataFetcher';
+import Legend from "./Legend";
 
 const Wrapper = () => {
 
@@ -31,9 +32,11 @@ const Wrapper = () => {
               showPastEvents={showPastEvents}
               setShowPastEvents={setShowPastEvents}
             />
+            <a className="btn btn-primary" href="https://newsroom.eclipse.org/node/add/events">Submit Your Event</a>
+            <Legend />
           </div>
-          <div className="col-md-18 event-list-wrapper">
 
+          <div className="col-md-18 event-list-wrapper">
           <EventsDataFetcher
             eventTime="upcoming"
             searchValue={triggerSearchValue}
