@@ -49,7 +49,7 @@ const Wrapper = () => {
 
             { showPastEvents && upcomingReachEnd && 
             <>
-            <div className="event-load-more"><p className="past-events-line">Past Events</p></div>
+            <div className="event-load-more"><p className="past-events-line margin-top-15">Past Events</p></div>
             <EventsDataFetcher
               eventTime="past"
               searchValue={triggerSearchValue} 
