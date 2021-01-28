@@ -4,6 +4,7 @@ import Alerts from '../Alerts';
 import EventLists from './EventLists';
 import { hasSelectedItems, getUrl } from '../EventHelpers';
 import PropTypes from 'prop-types';
+import Loading from '../Loading';
 
 const EventsDataFetcher = ({ searchValue, checkedWorkingGroups, checkedTypes, reachEnd, setReachEnd }) => {
 
@@ -11,16 +12,21 @@ const EventsDataFetcher = ({ searchValue, checkedWorkingGroups, checkedTypes, re
   const [isFetchingMore, setIsFetchingMore] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
 
+  const [isLoading, setIsLoading] = useState(true)
   const [eventsData, setEventsData] = useState([])
 
   const fetchingDataWithParas = (signal, page, searchParas, groupParas, typeParas, forceUpdate) => {
+
+    if (page === 1) {
+      setIsLoading(true);
+    }
 
     let url = getUrl(page, searchParas, groupParas, typeParas)
     fetch(url, {signal: signal})
     .then((res) => res.json())
     .then(
       (result) => {
-        if (result.events.length === 0) {
+        if (result.events.length < 10) {
           setReachEnd(true)
           if (forceUpdate) {
             setEventsData(result.events)
@@ -36,6 +42,7 @@ const EventsDataFetcher = ({ searchValue, checkedWorkingGroups, checkedTypes, re
           }
         }
         setIsFetchingMore(false)
+        setIsLoading(false)
       },
     )
     .catch((error) => {
@@ -66,6 +73,8 @@ const EventsDataFetcher = ({ searchValue, checkedWorkingGroups, checkedTypes, re
     fetchingDataWithParas(null, (currentPage + 1), searchValue, hasSelectedItems(checkedWorkingGroups), hasSelectedItems(checkedTypes), false)
     setCurrentPage(prev => prev + 1)
   }
+
+  if (isLoading) return <Loading />
 
   if (error) return <Alerts alertType={alertTypes.ERROR} message={error.message} />
 
