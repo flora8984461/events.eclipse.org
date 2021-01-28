@@ -5,7 +5,7 @@ import EventLists from './EventLists';
 import { hasSelectedItems, getUrl } from '../EventHelpers';
 import PropTypes from 'prop-types';
 
-const EventsDataFetcher = ({ eventTime, searchValue, checkedWorkingGroups, checkedTypes, reachEnd, setReachEnd, showPastEvents }) => {
+const EventsDataFetcher = ({ searchValue, checkedWorkingGroups, checkedTypes, reachEnd, setReachEnd }) => {
 
   const [error, setError] = useState(null)
   const [isFetchingMore, setIsFetchingMore] = useState(false)
@@ -13,9 +13,9 @@ const EventsDataFetcher = ({ eventTime, searchValue, checkedWorkingGroups, check
 
   const [eventsData, setEventsData] = useState([])
 
-  const fetchingDataWithParas = (signal, page, searchParas, timeParas, groupParas, typeParas, forceUpdate) => {
+  const fetchingDataWithParas = (signal, page, searchParas, groupParas, typeParas, forceUpdate) => {
 
-    let url = getUrl(page, searchParas, timeParas, groupParas, typeParas)
+    let url = getUrl(page, searchParas, groupParas, typeParas)
     fetch(url, {signal: signal})
     .then((res) => res.json())
     .then(
@@ -53,7 +53,7 @@ const EventsDataFetcher = ({ eventTime, searchValue, checkedWorkingGroups, check
     const signal = abortController.signal
     setCurrentPage(1)
     setReachEnd(false)
-    fetchingDataWithParas(signal, 1, searchValue, eventTime, hasSelectedItems(checkedWorkingGroups), hasSelectedItems(checkedTypes), true)
+    fetchingDataWithParas(signal, 1, searchValue, hasSelectedItems(checkedWorkingGroups), hasSelectedItems(checkedTypes), true)
     // Clean up, when events list component is unmounted, cancel the fetch request
     return function cleanup() {
       abortController.abort()
@@ -63,7 +63,7 @@ const EventsDataFetcher = ({ eventTime, searchValue, checkedWorkingGroups, check
   // get more when click on the button
   const fetchMoreWithParas = () => {
     setIsFetchingMore(true)
-    fetchingDataWithParas(null, (currentPage + 1), searchValue, eventTime, hasSelectedItems(checkedWorkingGroups), hasSelectedItems(checkedTypes), false)
+    fetchingDataWithParas(null, (currentPage + 1), searchValue, hasSelectedItems(checkedWorkingGroups), hasSelectedItems(checkedTypes), false)
     setCurrentPage(prev => prev + 1)
   }
 
@@ -76,15 +76,12 @@ const EventsDataFetcher = ({ eventTime, searchValue, checkedWorkingGroups, check
         isFetchingMore={isFetchingMore}
         fetchMore={fetchMoreWithParas}
         reachEnd={reachEnd}
-        eventTime={eventTime}
-        showPastEvents={showPastEvents}
       />
     </>
   )
 }
 
 EventsDataFetcher.propTypes = {
-  eventTime: PropTypes.string.isRequired,
   searchValue: PropTypes.string,
   checkedWorkingGroups: PropTypes.object,
   checkedTypes: PropTypes.object,

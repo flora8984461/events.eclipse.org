@@ -65,22 +65,6 @@ describe('Render checkbox filters', () => {
     })
   })
 
-  it('Render past event checkbox filters', () => {
-    let showPastEvents = false
-    const setShowPastEvents = jest.fn().mockImplementationOnce((showPastEvents) => showPastEvents = !showPastEvents)
-    render(
-      <EventsCheckboxFilters
-        showPastEvents={showPastEvents}
-        setShowPastEvents={setShowPastEvents}
-      />
-    )
-
-    expect(screen.getByText(show_past_events)).toBeInTheDocument()
-    const checkbox = screen.getByTestId('show_past_events')
-    fireEvent.click(checkbox)
-    expect(setShowPastEvents).toHaveBeenCalled()
-  })
-
   it('Can collapse event type filters', () => {
  
     render(
@@ -109,18 +93,4 @@ describe('Render checkbox filters', () => {
     expect(screen.queryByText(group_III)).not.toBeInTheDocument()
   });
 
-  it('Can collapse past events filters', () => {
-
-    const showPastEvents = false
-    const setShowPastEvents = jest.fn()
- 
-    render(
-      <EventsCheckboxFilters
-        showPastEvents={showPastEvents}
-        setShowPastEvents={setShowPastEvents}
-      />
-    )
-    fireEvent.click(screen.getByText('Show Past Events'))
-    expect(screen.queryByTestId(show_past_events)).not.toBeInTheDocument()
-  });
 })

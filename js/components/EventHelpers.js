@@ -171,6 +171,14 @@ export function generateTimes(startDate, endDate) {
   }
 }
 
+export function checkDatePast(inputDate) {
+  var today = new Date();
+  var input_date = new Date(inputDate);
+  if (today.setHours(0,0,0,0) < input_date.setHours(0,0,0,0)) {
+    return false;
+  } else return true;
+}
+
 export function alphaOrder(array) {
 
   if (array) {
@@ -187,14 +195,8 @@ export function hasSelectedItems(items) {
 }
 
 
-export function getUrl(page, searchParas, timeParas, groupParas, typeParas) {
-  let url = `https://newsroom.eclipse.org/api/events?&page=${page}&pagesize=20`
-  if (timeParas === "upcoming") { // do not show past events, by default only show upcoming
-    url = url + "&parameters[upcoming_only]=1&options[orderby][field_event_date]=ASC"
-  }
-  if (timeParas === "past") { // show past events
-    url = url + "&parameters[past_event_only]=1"
-  }
+export function getUrl(page, searchParas, groupParas, typeParas) {
+  let url = `https://newsroom.eclipse.org/api/events?&page=${page}&pagesize=10`
   for (let i=0; i<groupParas.length; i++) {
     url = url + "&parameters[publish_to][]=" + groupParas[i]
   }

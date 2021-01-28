@@ -10,9 +10,7 @@ const Wrapper = () => {
   const [checkedWorkingGroups, setCheckedWorkingGroups] = useState({})
   const [checkedTypes, setCheckedTypes] = useState({})
 
-  const [pastReachEnd, setPastReachEnd] = useState(false)
   const [upcomingReachEnd, setUpcomingReachEnd] = useState(false)
-  const [showPastEvents, setShowPastEvents] = useState(false)
 
   return (
     <>
@@ -28,10 +26,6 @@ const Wrapper = () => {
               checkedWorkingGroups={checkedWorkingGroups}
               setCheckedWorkingGroups={setCheckedWorkingGroups}
             />
-            <EventsCheckboxFilters
-              showPastEvents={showPastEvents}
-              setShowPastEvents={setShowPastEvents}
-            />
             <a className="btn btn-primary" href="https://newsroom.eclipse.org/node/add/events">Submit Your Event</a>
             <Legend />
           </div>
@@ -44,23 +38,7 @@ const Wrapper = () => {
             checkedTypes={checkedTypes}
             reachEnd={upcomingReachEnd}
             setReachEnd={setUpcomingReachEnd}
-            showPastEvents={showPastEvents}
           />
-
-            { showPastEvents && upcomingReachEnd && 
-            <>
-            <div className="event-load-more"><p className="past-events-line margin-top-15">Past Events</p></div>
-            <EventsDataFetcher
-              eventTime="past"
-              searchValue={triggerSearchValue} 
-              checkedWorkingGroups={checkedWorkingGroups} 
-              checkedTypes={checkedTypes}
-              reachEnd={pastReachEnd}
-              setReachEnd={setPastReachEnd}
-              past={true}
-            />
-            </> }
-
           </div>
         </div>
       </div>
