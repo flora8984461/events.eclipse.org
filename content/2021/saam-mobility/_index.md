@@ -6,7 +6,7 @@ tagline: "Virtual Conference | June 15 - 16, 2021"
 date: 2021-06-15T08:00:00-04:00
 hide_page_title: true
 hide_sidebar: true
-header_wrapper_class: "header-default-event"
+header_wrapper_class: "header-saam-2021-event"
 hide_breadcrumb: true
 container: "container-fluid"
 summary: "The Eclipse SAAM Mobility conference will bring together industry experts and researchers working on the next generation of mobility, especially focusing on Security and Privacy, Artificial Intelligence, Architecture, and Modelling related issues, and innovative software and systems solutions."
