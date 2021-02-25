@@ -8,7 +8,7 @@ hide_page_title: true
 hide_sidebar: true
 header_wrapper_class: "header-saam-2021-event"
 hide_breadcrumb: true
-container: "container-fluid"
+container: "container-fluid saam-2021-event"
 summary: "The Eclipse SAAM Mobility conference will bring together industry experts and researchers working on the next generation of mobility, especially focusing on Security and Privacy, Artificial Intelligence, Architecture, and Modelling related issues, and innovative software and systems solutions."
 layout: single
 links: [[href: "cfp.pdf",text: "Call for Papers"],[href: "https://easychair.org/my/conference?conf=esaamm2021#",text: "Submit a Paper"]]
@@ -23,7 +23,7 @@ The call for papers is open. Download the call for papers now and talk with your
 {{</ grid/section-container >}}
 
 <!-- Topics -->
-{{< grid/section-container id="topics" class="featured-section-row featured-section-row-dark-bg text-center saam-2021">}}
+{{< grid/section-container id="topics" class="featured-section-row featured-section-row-dark-bg text-center">}}
 
 <h2>Technical topics of interest</h2>
 
@@ -84,7 +84,7 @@ Modelling for Mobility
 {{</ grid/section-container >}}
 
 [//]: # (TCP)
-{{< grid/section-container id="program-committee" class="featured-section-row featured-section-row-dark-bg saam-2021">}}
+{{< grid/section-container id="program-committee" class="featured-section-row featured-section-row-dark-bg">}}
 <h2 align="center">Technical Program Committee </h2>
 
 The Technical Program Committee is an independent panel of expert volunteers and as such will do their best to judge papers objectively and on the principle of a level playing field for all. 
