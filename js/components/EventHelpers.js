@@ -205,33 +205,33 @@ export function checkSameDay(startDate, endDate) {
   return checkSameMonth(startDate, endDate) && startDate.getDate() === endDate.getDate()
 }
 
-export function generateDate(date) {
+export function generateDate(date, locale) {
   if (date) {
-    return date.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })
+    return date.toLocaleDateString(locale, { weekday: 'short', month: 'short', day: 'numeric' })
   }
 }
 
-export function generateDates(startDate, endDate) {
+export function generateDates(startDate, endDate, locale = undefined) {
   if (endDate && !checkSameDay(startDate, endDate)) {
-    return generateDate(startDate) + " - " + generateDate(endDate) + ", " + startDate.getFullYear()
+    return generateDate(startDate, locale) + " - " + generateDate(endDate, locale) + ", " + startDate.getFullYear()
   }
   else {
-    return generateDate(startDate)
+    return generateDate(startDate, locale)
   }
 }
 
-export function generateTime(time) {
+export function generateTime(time, locale) {
   if (time) {
-    return time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    return time.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' })
   }
 }
 
-export function generateTimes(startDate, endDate) {
+export function generateTimes(startDate, endDate, locale = []) {
   if (endDate && checkSameDay(startDate, endDate)) {
-    return generateTime(startDate) + " - " + generateTime(endDate)
+    return generateTime(startDate, locale) + " - " + generateTime(endDate, locale)
   }
   else {
-    return generateTime(startDate)
+    return generateTime(startDate, locale)
   }
 }
 
