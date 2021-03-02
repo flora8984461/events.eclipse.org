@@ -218,19 +218,19 @@ describe('Test generateDates and generateTimes function', () => {
   const endDate_III = new Date('2020-10-12T21:00:00Z')
   
   it('Test generate correct dates', () => {
-    expect(generateDates(startDate_I, endDate_I)).toBe('Tue, Oct 13 - Wed, Oct 14, 2020')
+    expect(generateDates(startDate_I, endDate_I)).toBe('Tue., Oct. 13 - Wed., Oct. 14, 2020')
   });
   
   it('Test generate correct dates without end date', () => {
-    expect( generateDates(startDate_II, endDate_II) ).toEqual('Mon, Oct 12')
+    expect( generateDates(startDate_II, endDate_II) ).toEqual('Mon., Oct. 12')
   });
 
   it('Test generate correct start time for multiday events', () => {
-    expect(generateTimes(startDate_I, endDate_I)).toBe('08:30 AM')
+    expect(generateTimes(startDate_I, endDate_I)).toBe('08:30 a.m.')
   });
   
   it('Test generate correct times for one day event', () => {
-    expect( generateTimes(startDate_II, endDate_III) ).toEqual('08:00 AM - 05:00 PM')
+    expect( generateTimes(startDate_II, endDate_III) ).toEqual('08:00 a.m. - 05:00 p.m.')
   });
 
   it('Test when empty date for generateDates', () => {

@@ -12,6 +12,10 @@ export const WORKING_GROUPS = [
     name: "Edge Native"
   },
   {
+    id: "research",
+    name: "Eclipse Research"
+  },
+  {
     id: "gemoc_rc",
     name: "GEMOC RC"
   },

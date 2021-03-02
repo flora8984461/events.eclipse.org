@@ -13,8 +13,8 @@ describe('Test an event card', () => {
       <EventCard event={firstEvent} />
     )
     expect(screen.getByText(firstEvent.title)).toBeInTheDocument()
-    expect(screen.getByText('Wed, Sep 30')).toBeInTheDocument()
-    expect(screen.getByText('03:00 AM - 05:00 AM')).toBeInTheDocument()
+    expect(screen.getByText('Wed., Sep. 30')).toBeInTheDocument()
+    expect(screen.getByText('03:00 a.m. - 05:00 a.m.')).toBeInTheDocument()
   });
 
   it('Can show description', () => {
