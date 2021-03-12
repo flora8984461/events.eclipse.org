@@ -196,7 +196,7 @@ export function hasSelectedItems(items) {
 
 
 export function getUrl(page, searchParas, groupParas, typeParas) {
-  let url = `https://newsroom.eclipse.org/api/events?&page=${page}&pagesize=10`
+  let url = `https://newsroom.eclipse.org/api/events?&page=${page}&pagesize=10&options[orderby][field_event_date]=custom`
   for (let i=0; i<groupParas.length; i++) {
     url = url + "&parameters[publish_to][]=" + groupParas[i]
   }
